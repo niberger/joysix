@@ -11,9 +11,9 @@ class Joystick:
 		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 
 		#geometrical calibration
-		self.rs = [40, 40, 40]
-		self.ls = [102, 145, 102]
-		self.pot_angle = 220/180*math.pi
+		self.rs = [50, 50, 50]
+		self.ls = [95, 130, 95]
+		self.pot_rad_per_unit = 1./3000.*math.pi
 		angles = [2./3.*math.pi, 0., -2./3.*math.pi]
 
 		#placements of the 3 joysticks
@@ -91,7 +91,7 @@ class Joystick:
 		self.ser.flushOutput()
 		self.ser.write('g') #g for get
 		raw_values = self.ser.readline()
-		coef = self.pot_angle / 4096
+		coef = self.pot_rad_per_unit
 		values = col([coef * float(x) for x in raw_values.split()])
 		return values
 
